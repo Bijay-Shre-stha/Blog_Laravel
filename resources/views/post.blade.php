@@ -59,9 +59,10 @@ button
     </style>
 </head>
 <body>
+    @foreach ( $posts as $post )
     <article>
         <?= $post; ?>
     </article>
-    <a href="/">Go back</a>
+    @endforeach
 </body>
 </html>

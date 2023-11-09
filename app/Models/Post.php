@@ -15,16 +15,18 @@ class Post
     public $body;
 
     public $slug;
+    public $author;
     /**
      * The constructor.
      */
-    public function __construct($title, $excerpt, $date, $body ,$slug)
+    public function __construct($title, $excerpt, $date, $body ,$slug, $author)
     {
         $this->title = $title;
         $this->excerpt = $excerpt;
         $this->date = $date;
         $this->body = $body;
         $this->slug = $slug;
+        $this->author = $author;
     }
 
     public static function all()
@@ -36,8 +38,10 @@ class Post
             $document->excerpt,
             $document->date,
             $document->body(),
-            $document->slug
-        ));
+            $document->slug,
+            $document->author,
+        ))
+        ->sortby('date');
     }
 
     public static function find($slug)

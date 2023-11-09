@@ -11,17 +11,18 @@
 
 <body>
     <h1 class="blog">Blogs Available</h1>
-    <?php foreach ($posts as $post) : ?>
+    @foreach ($posts as $post)
         <article>
             <h1>
-                <?= $post->title; ?>
+                <a href="/posts/{{ $post->slug }}">
+                    {{ $post->title }}
+                </a>
             </h1>
             <div class="body">
-                <?= $post->body; ?>
+                {{ $post->body }}
             </div>
-            <p>
         </article>
-    <?php endforeach; ?>
+    @endforeach
 </body>
 
 </html>
