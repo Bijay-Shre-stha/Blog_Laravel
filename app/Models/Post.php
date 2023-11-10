@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Cache;
@@ -13,43 +14,43 @@ class Post
     public $excerpt;
     public $date;
     public $body;
-
     public $slug;
-    public $author;
-    /**
-     * The constructor.
-     */
-    public function __construct($title, $excerpt, $date, $body ,$slug, $author)
+
+    public function __construct($title, $excerpt, $date, $body, $slug)
     {
         $this->title = $title;
         $this->excerpt = $excerpt;
         $this->date = $date;
         $this->body = $body;
         $this->slug = $slug;
-        $this->author = $author;
     }
 
     public static function all()
     {
-        return collect(File:: files(resource_path("posts")))
-        ->map(fn($file)=>YamlFrontMatter:: parseFile($file))
-        ->map (fn($document)=>new Post(
-            $document->title,
-            $document->excerpt,
-            $document->date,
-            $document->body(),
-            $document->slug,
-            $document->author,
-        ))
-        ->sortby('date');
+        return collect(File::files(resource_path("posts")))
+            ->map(function ($file) {
+                $document = YamlFrontMatter::parseFile($file);
+                return new Post(
+                    $document->title,
+                    $document->excerpt,
+                    $document->date,
+                    $document->body(),
+                    $document->slug
+                );
+            });
     }
 
     public static function find($slug)
     {
-        if (!File::exists($path = resource_path("posts/{$slug}.html"))){
+     return static::all()->firstWhere('slug',$slug);
+
+    }
+    public static function findOrFail($slug)
+    {
+        $post = static::find($slug);
+        if (! $post) {
             throw new ModelNotFoundException();
         }
-
-        return Cache::remember("posts.{$slug}", 1200, fn () => file_get_contents($path));
+        return $post;
     }
 }
