@@ -1,14 +1,14 @@
 <?php
 
+use App\Models\Blog;
 use Illuminate\Support\Facades\Route;
-use App\Models\Post;
 
 Route::get('/', function () {
     return view('posts', [
-        'posts' => Post::all()
+        'posts' => Blog::all()
     ]);
 });
 
-Route::get('/posts/{post}', function ($slug) {
-    return view('post',['post'=> Post::findOrFail($slug)]);
+Route::get('/posts/{post}', function ($post) {
+    return view('post', ['post' => Blog::findOrFail($post)]);
 });
