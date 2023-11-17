@@ -44,3 +44,9 @@ button
     font-weight: 500;
     transition: all 0.3s ease;
 }
+.category__name{
+    font-size: 20px;
+    font-weight: 500;
+    color: red;
+    margin-bottom: 10px;
+}
