@@ -8,7 +8,7 @@
                 </a>
             </h1>
             <div class="name">
-                Category-<span class="category__name">{{ $post->category->name }}</span>
+                Category-<a href="/categories/{{ $post->category->slug }}" class="category__name">{{ $post->category->name }}</a>
             </div>
             <div>
                 {{ $post->excerpt }}
