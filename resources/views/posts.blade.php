@@ -8,6 +8,7 @@
                 </a>
             </h1>
             <div class="name">
+                <p>- <a href="/authors/{{$post->author->username}}">{{$post->author->username}}</a></p>
                 Category-<a href="/categories/{{ $post->category->slug }}" class="category__name">{{ $post->category->name }}</a>
             </div>
             <div>
