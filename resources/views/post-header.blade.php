@@ -18,22 +18,21 @@
     <div class="space-y-2 lg:space-y-0 lg:space-x-4 mt-8">
         <!--  Category -->
         <div class="relative flex  lg:inline-flex items-center bg-gray-200 rounded-xl">
-            <div x-data="{ show: false }" @click.away="{show: false}">
-                <button @click="show = !show" class="py-2 w-full pl-3 pr-9 text-sm font-semibold">
-                    {{ isset($currentCategory) ? ucwords($currentCategory->name) : 'Categories' }}
-                </button>
-                <div x-show="show" class="py-3 absolute bg-gray-100 mt-2 rounded-xl z-50 display:none">
-                    <a href="/"
-                        class="block text-left px-3 text-xs leading-6 hover:bg-gray-300 focus:bg-gray-300">All</a>
-                    @foreach ($categories as $category)
-                        <a href="/categories/{{ $category->slug }}"
-                            class="block text-left px-3 text-xs leading-6 hover:bg-gray-300 focus:bg-gray-300 first-letter
-                            {{ isset($currentCategory) && $currentCategory->is($category) ? 'bg-blue-500 text-white' : '' }}
-                            ">{{ $category->name }}</a>
-                    @endforeach
-                </div>
-
-            </div>
+            <x-dropdown>
+                <x-slot name="trigger">
+                    <button class="py-2 pl-3 pr-9 text-sm font-semibold w-full lg:w-32 text-left flex lg:inline-flex">
+                        {{ isset($currentCategory) ? ucwords($currentCategory->name) : 'Categories' }}
+                    </button>
+                </x-slot>
+                <x-dropdown-item href="/"
+                    :active="request()->routeIs('home')">
+                    All
+                </x-dropdown-item>
+                @foreach ($categories as $category)
+                    <x-dropdown-item href="/categories/{{ $category->slug }}" :active="request()->is('categories/' . $category->slug)">
+                        {{ ucwords($category->name) }}</x-dropdown-item>
+                @endforeach
+            </x-dropdown>
 
             <!-- Other Filters -->
             <div class="relative flex lg:inline-flex items-center bg-gray-200 rounded-xl">
